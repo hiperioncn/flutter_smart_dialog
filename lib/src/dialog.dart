@@ -12,21 +12,26 @@ class FlutterSmartDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Overlay(initialEntries: [
-        //主体布局
-        OverlayEntry(builder: (BuildContext context) => child ?? Container()),
+    return WillPopScope(
+      onWillPop: () async {
+        return Future.value(false);
+      },
+      child: Material(
+        color: Colors.transparent,
+        child: Overlay(initialEntries: [
+          //主体布局
+          OverlayEntry(builder: (BuildContext context) => child ?? Container()),
 
-        //添加的控件,覆盖在主体布局上面
-        SmartDialog.instance.entryMain,
+          //添加的控件,覆盖在主体布局上面
+          SmartDialog.instance.entryMain,
 
-        //单独提供给Loading
-        SmartDialog.instance.entryLoading,
+          //单独提供给Loading
+          SmartDialog.instance.entryLoading,
 
-        //单独提供给Toast
-        SmartDialog.instance.entryToast,
-      ]),
+          //单独提供给Toast
+          SmartDialog.instance.entryToast,
+        ]),
+      ),
     );
   }
 }
